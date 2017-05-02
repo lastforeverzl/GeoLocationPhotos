@@ -11,30 +11,25 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by lei on 4/27/17.
+ * Created by lei on 4/28/17.
  */
 
-public abstract class SearchDataManager extends BaseDataManager {
-    private static final String TAG = "SearchDataManager";
+public abstract class PhotoDataManager extends BaseDataManager {
+    private static final String TAG = "PhotoDataManager";
 
-    private String lat;
-    private String lng;
-
-    public SearchDataManager() {
+    public PhotoDataManager() {
         super();
         rawPhotos = new ArrayList<>();
         photoIdSet = new HashSet<>();
     }
 
-    public void provideData(String lat, String lng) {
-        this.lat = lat;
-        this.lng = lng;
+    public void provideData() {
         loadRecentPhotos(String.valueOf(photoPage));
         photoPage++;
     }
 
     private void loadRecentPhotos(String page) {
-        getFlickrApi().getSearch(BuildConfig.FLICKR_API_KEY, EXTRAS, page, lat, lng)
+        getFlickrApi().getRecent(BuildConfig.FLICKR_API_KEY, EXTRAS, page, String.valueOf(30))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(recentPhotos -> recentPhotos.getPhotos().getPhoto())

@@ -13,7 +13,7 @@ public class ReorgPhoto {
     private String location;
     private String avatar_url;
     private String url_c;
-    private String url_q;
+    private String url_z;
 
     public ReorgPhoto(String id) {
         this.id = id;
@@ -79,12 +79,12 @@ public class ReorgPhoto {
         this.url_c = url_c;
     }
 
-    public String getUrlQ() {
-        return url_q;
+    public String getUrlZ() {
+        return url_z;
     }
 
-    public void setUrlQ(String url_q) {
-        this.url_q = url_q;
+    public void setUrlZ(String url_z) {
+        this.url_z = url_z;
     }
 
     @Override

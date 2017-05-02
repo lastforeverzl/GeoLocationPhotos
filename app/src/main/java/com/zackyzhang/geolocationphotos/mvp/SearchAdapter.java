@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.zackyzhang.geolocationphotos.R;
@@ -18,20 +17,19 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
- * Created by lei on 4/28/17.
+ * Created by lei on 4/29/17.
  */
 
-public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
-    private static final String TAG = "MainAdapter";
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> {
+    private static final String TAG = "SearchAdapter";
 
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     private List<ReorgPhoto> mPhotos;
 
-    public MainAdapter(Context context) {
+    public SearchAdapter(Context context) {
         this.mContext = context;
         this.mLayoutInflater = LayoutInflater.from(context);
         this.mPhotos = new ArrayList<>();
@@ -39,7 +37,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(R.layout.photo_list_item, parent, false);
+        View view = mLayoutInflater.inflate(R.layout.search_list_item, parent, false);
         return new Holder(view);
     }
 
@@ -47,22 +45,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
     public void onBindViewHolder(Holder holder, int position) {
         ReorgPhoto photo = mPhotos.get(position);
         Glide.with(mContext)
-                .load(photo.getUrlC())
+                .load(photo.getUrlZ())
                 .centerCrop()
                 .into(holder.photo);
-        holder.description.setText(photo.getDescription());
-        holder.location.setText(photo.getLocation());
-        holder.userName.setText(photo.getUsername());
-        Glide.with(mContext)
-                .load(photo.getAvatar_url())
-                .bitmapTransform(new CropCircleTransformation(mContext))
-                .placeholder(R.drawable.avatar_placeholder)
-                .into(holder.avatar);
-    }
-
-    @Override
-    public int getItemCount() {
-        return mPhotos.size();
     }
 
     public void clearAdapter() {
@@ -81,23 +66,19 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
         notifyDataSetChanged();
     }
 
+    @Override
+    public int getItemCount() {
+        return mPhotos.size();
+    }
+
     public class Holder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.id_avatar)
-        ImageView avatar;
-        @BindView(R.id.id_user)
-        TextView userName;
-        @BindView(R.id.id_location)
-        TextView location;
-        @BindView(R.id.id_photo)
+        @BindView(R.id.photo)
         ImageView photo;
-        @BindView(R.id.photo_description)
-        TextView description;
 
         public Holder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
     }
-
 }

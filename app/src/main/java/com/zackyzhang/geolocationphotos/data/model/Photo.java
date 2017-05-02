@@ -79,12 +79,12 @@ public class Photo extends BasePhoto{
     private String heightC;
     @SerializedName("width_c")
     private String widthC;
-    @SerializedName("url_q")
-    private String urlQ;
-    @SerializedName("height_q")
-    private String heightQ;
-    @SerializedName("width_q")
-    private String widthQ;
+    @SerializedName("url_z")
+    private String urlZ;
+    @SerializedName("height_z")
+    private String heightZ;
+    @SerializedName("width_z")
+    private String widthZ;
 
 
 
@@ -264,27 +264,27 @@ public class Photo extends BasePhoto{
         this.widthC = widthC;
     }
 
-    public String getUrlQ() {
-        return urlQ;
+    public String getUrlZ() {
+        return urlZ;
     }
 
-    public void setUrlQ(String urlQ) {
-        this.urlQ = urlQ;
+    public void setUrlZ(String urlQ) {
+        this.urlZ = urlZ;
     }
 
-    public String getHeightQ() {
-        return heightQ;
+    public String getHeightZ() {
+        return heightZ;
     }
 
-    public void setHeightQ(String heightQ) {
-        this.heightQ = heightQ;
+    public void setHeightZ(String heightZ) {
+        this.heightZ = heightZ;
     }
 
-    public String getWidthQ() {
-        return widthQ;
+    public String getwidthZ() {
+        return widthZ;
     }
 
-    public void setWidthQ(String widthQ) {
-        this.widthQ = widthQ;
+    public void setwidthZ(String widthQ) {
+        this.widthZ = widthZ;
     }
 }

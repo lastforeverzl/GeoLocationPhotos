@@ -1,5 +1,7 @@
 package com.zackyzhang.geolocationphotos.mvp.view;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,6 +38,7 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setSupportActionBar(mToolbar);
         setupRecyclerView();
         getPhotos();
     }
@@ -56,6 +59,12 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
         switch (item.getItemId()) {
             case R.id.menu_search:
                 View searchMenuView = mToolbar.findViewById(R.id.menu_search);
+                Intent intent = new Intent(this, SearchActivity.class);
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    Bundle options = ActivityOptions.makeSceneTransitionAnimation(this, searchMenuView,
+                            getString(R.string.transition_search_back)).toBundle();
+                    startActivity(intent, options);
+                } else startActivity(intent);
 
         }
         return super.onOptionsItemSelected(item);

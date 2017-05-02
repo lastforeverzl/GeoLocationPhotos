@@ -7,4 +7,6 @@
     <color name="avatar_placeholder">#FFE0E0e0</color>
     <color name="text_primary_dark">#000000</color>
     <color name="text_primary_light">#FFFFFF</color>
+
+    <color name="scrim">#99323232</color>
 </resources>

@@ -1,6 +1,6 @@
 package com.zackyzhang.geolocationphotos.mvp.presenter;
 
-import com.zackyzhang.geolocationphotos.data.model.PhotoDataManager;
+import com.zackyzhang.geolocationphotos.data.PhotoDataManager;
 import com.zackyzhang.geolocationphotos.data.model.ReorgPhoto;
 import com.zackyzhang.geolocationphotos.mvp.MainContract;
 

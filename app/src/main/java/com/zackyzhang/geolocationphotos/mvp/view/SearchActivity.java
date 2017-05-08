@@ -15,6 +15,8 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
+import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
@@ -176,7 +178,14 @@ public class SearchActivity extends MvpActivity<SearchContract.View, SearchContr
             }
         });
 
-        recentSearchList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(this)
+                .setOrientation(ChipsLayoutManager.HORIZONTAL)
+                .setRowStrategy(ChipsLayoutManager.STRATEGY_DEFAULT)
+                .build();
+        recentSearchList.setLayoutManager(chipsLayoutManager);
+        recentSearchList.addItemDecoration(new SpacingItemDecoration(getResources().getDimensionPixelOffset(R.dimen.query_item_space),
+                getResources().getDimensionPixelOffset(R.dimen.query_item_space)));
+//        recentSearchList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mQueryListAdapter = new QueryListAdapter(this);
         recentSearchList.setAdapter(mQueryListAdapter);
     }

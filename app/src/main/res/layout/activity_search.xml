@@ -44,7 +44,7 @@
             android:id="@+id/rv_recent_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/text_padding_indent"
+            android:padding="@dimen/text_padding"
             android:clipToPadding="false"/>
 
         <LinearLayout
@@ -93,7 +93,8 @@
         android:layout_height="match_parent"
         android:layout_marginTop="?android:actionBarSize"
         android:background="@color/colorPrimary"
-        android:elevation="@dimen/app_bar_elevation">
+        android:elevation="@dimen/app_bar_elevation"
+        tools:visibility="gone">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/photo_list"

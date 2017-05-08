@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.zackyzhang.geolocationphotos.R;
 import com.zackyzhang.geolocationphotos.data.model.ReorgPhoto;
@@ -34,6 +35,8 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
     RecyclerView recyclerView;
     @BindView(R.id.id_swiperefreshlayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.progress_bar)
+    ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +81,7 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
     @Override
     public void loadPhotos(ReorgPhoto data) {
         mMainAdapter.setPhotoList(data);
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Override

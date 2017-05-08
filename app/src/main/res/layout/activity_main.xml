@@ -34,14 +34,32 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/photo_list"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            android:scrollbarStyle="outsideOverlay"
-            android:clipToPadding="false"/>
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/photo_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                android:scrollbarStyle="outsideOverlay"
+                android:clipToPadding="false"/>
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/text_primary_dark"
+                />
+
+        </FrameLayout>
+
 
     </android.support.v4.widget.SwipeRefreshLayout>
+
+
 
 </android.support.design.widget.CoordinatorLayout>

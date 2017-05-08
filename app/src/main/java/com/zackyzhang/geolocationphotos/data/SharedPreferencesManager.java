@@ -41,16 +41,17 @@ public class SharedPreferencesManager {
     }
 
     public void saveRecentQuery(String location, String lat, String lng) {
-        RecentQuery rs = new RecentQuery(location);
-        rs.setLatitude(lat);
-        rs.setLongitude(lng);
+        if (location != null && lat != null && lng != null){
+            RecentQuery rs = new RecentQuery(location);
+            rs.setLatitude(lat);
+            rs.setLongitude(lng);
 
-        if (mRecentQueryList.contains(rs)) {
-            Log.d(TAG, "contain one: " + rs.getLocation());
-            mRecentQueryList.remove(rs);
+            if (mRecentQueryList.contains(rs)) {
+                Log.d(TAG, "contain one: " + rs.getLocation());
+                mRecentQueryList.remove(rs);
+            }
+            mRecentQueryList.addFirst(rs);
         }
-        mRecentQueryList.addFirst(rs);
-//        mRecentQueryList.add(rs);
 
         Gson gson = new Gson();
         String json = gson.toJson(mRecentQueryList);
@@ -61,7 +62,7 @@ public class SharedPreferencesManager {
 
     public void clearRecentQueryList() {
         mRecentQueryList.clear();
-
+        saveRecentQuery(null, null, null);
     }
 
     public LinkedList<RecentQuery> getRecentQuery() {

@@ -24,6 +24,8 @@ public interface SearchContract {
     interface Presenter extends MvpContract.MvpPresenter<View> {
         void loadPhotos(String lat, String lng);
 
+        void loadMorePhotos(String lat, String lng);
+
         void getRecentQuery();
 
         void setRecentQuery(String location, String lat, String lng);

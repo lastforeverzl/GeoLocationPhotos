@@ -173,7 +173,7 @@ public class SearchActivity extends MvpActivity<SearchContract.View, SearchContr
                 if (lastVisibleItem >= totalItemCount - 2 && dy > 0 && !isLoading) {
                     Log.d(TAG, "loading more photos");
                     setLoadingStatusTrue();
-                    presenter.loadPhotos(lat, lng);
+                    presenter.loadMorePhotos(lat, lng);
                 }
             }
         });

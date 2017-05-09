@@ -27,6 +27,10 @@
         <activity android:name=".mvp.view.SearchActivity">
 
         </activity>
+
+        <activity android:name=".mvp.view.GeoPhotosActivity">
+
+        </activity>
     </application>
 
 </manifest>

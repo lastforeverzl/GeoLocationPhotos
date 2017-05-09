@@ -33,6 +33,11 @@ public class SearchPresenter extends MvpPresenter<SearchContract.View> implement
     }
 
     @Override
+    public void loadMorePhotos(String lat, String lng) {
+        mSearchDataManager.provideData(lat, lng);
+    }
+
+    @Override
     public void getRecentQuery() {
         List<RecentQuery> queryList = mSharedPreferencesManager.getRecentQuery();
         for (RecentQuery item : queryList) {

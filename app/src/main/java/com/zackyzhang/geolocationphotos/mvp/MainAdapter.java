@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -27,9 +28,14 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
     private static final String TAG = "MainAdapter";
 
+    public interface OnItemClickListener {
+        void onItemClick(String lat, String lng);
+    }
+
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     private List<ReorgPhoto> mPhotos;
+    private OnItemClickListener mOnItemClickListener;
 
     public MainAdapter(Context context) {
         this.mContext = context;
@@ -45,19 +51,20 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-        ReorgPhoto photo = mPhotos.get(position);
-        Glide.with(mContext)
-                .load(photo.getUrlC())
-                .centerCrop()
-                .into(holder.photo);
-        holder.description.setText(photo.getDescription());
-        holder.location.setText(photo.getLocation());
-        holder.userName.setText(photo.getUsername());
-        Glide.with(mContext)
-                .load(photo.getAvatar_url())
-                .bitmapTransform(new CropCircleTransformation(mContext))
-                .placeholder(R.drawable.avatar_placeholder)
-                .into(holder.avatar);
+//        ReorgPhoto photo = mPhotos.get(position);
+//        Glide.with(mContext)
+//                .load(photo.getUrlC())
+//                .centerCrop()
+//                .into(holder.photo);
+//        holder.description.setText(photo.getDescription());
+//        holder.location.setText(photo.getLocation());
+//        holder.userName.setText(photo.getUsername());
+//        Glide.with(mContext)
+//                .load(photo.getAvatar_url())
+//                .bitmapTransform(new CropCircleTransformation(mContext))
+//                .placeholder(R.drawable.avatar_placeholder)
+//                .into(holder.avatar);
+        holder.bind(mPhotos.get(position));
     }
 
     @Override
@@ -81,7 +88,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
         notifyDataSetChanged();
     }
 
-    public class Holder extends RecyclerView.ViewHolder {
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.mOnItemClickListener = onItemClickListener;
+    }
+
+    public class Holder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
+        private ReorgPhoto mReorgPhoto;
 
         @BindView(R.id.id_avatar)
         ImageView avatar;
@@ -93,10 +106,34 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
         ImageView photo;
         @BindView(R.id.photo_description)
         TextView description;
+        @BindView(R.id.location_container)
+        LinearLayout locationContainer;
 
         public Holder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+        }
+
+        public void bind(ReorgPhoto reorgPhoto) {
+            mReorgPhoto = reorgPhoto;
+            Glide.with(mContext)
+                    .load(mReorgPhoto.getUrlC())
+                    .centerCrop()
+                    .into(photo);
+            description.setText(mReorgPhoto.getDescription());
+            location.setText(mReorgPhoto.getLocation());
+            userName.setText(mReorgPhoto.getUsername());
+            Glide.with(mContext)
+                    .load(mReorgPhoto.getAvatar_url())
+                    .bitmapTransform(new CropCircleTransformation(mContext))
+                    .placeholder(R.drawable.avatar_placeholder)
+                    .into(avatar);
+            locationContainer.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            mOnItemClickListener.onItemClick(mReorgPhoto.getLatitude(), mReorgPhoto.getLongitude());
         }
     }
 

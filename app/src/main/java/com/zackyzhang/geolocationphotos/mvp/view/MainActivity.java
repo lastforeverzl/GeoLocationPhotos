@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.zackyzhang.geolocationphotos.R;
 import com.zackyzhang.geolocationphotos.data.model.ReorgPhoto;
@@ -21,13 +22,14 @@ import com.zackyzhang.geolocationphotos.mvp.presenter.MainPresenter;
 
 import butterknife.BindView;
 
-public class MainActivity extends MvpActivity<MainContract.View, MainContract.Presenter> implements MainContract.View {
+public class MainActivity extends MvpActivity<MainContract.View, MainContract.Presenter> implements MainContract.View, MainAdapter.OnItemClickListener {
 
     private static final String TAG = "MainActivity";
 
     private MainAdapter mMainAdapter;
     private boolean isLoading = false;
     private boolean isRefreshing = false;
+    private MainAdapter.OnItemClickListener mOnItemClickListener;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -96,6 +98,7 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
     }
 
     private void getPhotos() {
+        mProgressBar.setVisibility(View.VISIBLE);
         setLoadingStatusTrue();
         presenter.loadPhotos();
     }
@@ -104,6 +107,7 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
         mMainAdapter = new MainAdapter(this);
+        mMainAdapter.setOnItemClickListener(this);
         recyclerView.setAdapter(mMainAdapter);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -132,5 +136,14 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
                 }
             }
         });
+    }
+
+    @Override
+    public void onItemClick(String lat, String lng) {
+        Toast.makeText(this, "lat: " + lat + ", lng: " + lng, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, GeoPhotosActivity.class);
+        intent.putExtra(GeoPhotosActivity.INTENT_EXTRA_LATITUDE, lat);
+        intent.putExtra(GeoPhotosActivity.INTENT_EXTRA_LONGITUDE, lng);
+        startActivity(intent);
     }
 }

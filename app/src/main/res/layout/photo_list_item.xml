@@ -19,6 +19,7 @@
             android:src="@drawable/avatar_placeholder"/>
 
         <LinearLayout
+            android:id="@+id/location_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/avatar_margin"

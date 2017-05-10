@@ -101,11 +101,26 @@ public abstract class BaseDataManager {
     }
 
     protected void generateReorgPhoto(PhotoInfo photoInfo, ReorgPhoto photo) {
+        String country, region;
         photo.setLatitude(String.valueOf(photoInfo.getLocation().getLatitude()));
         photo.setLongitude(String.valueOf(photoInfo.getLocation().getLongitude()));
         photo.setDescription(photoInfo.getDescription().getContent());
         photo.setUsername(photoInfo.getOwner().getUsername());
-        String location = photoInfo.getLocation().getRegion().getContent() + " " + photoInfo.getLocation().getCountry().getContent();
+        if (photoInfo.getLocation().getCountry() != null) {
+            country = photoInfo.getLocation().getCountry().getContent();
+        } else {
+            country = "";
+        }
+        if (photoInfo.getLocation().getRegion() != null) {
+            region = photoInfo.getLocation().getRegion().getContent();
+        } else if (photoInfo.getLocation().getCounty() != null) {
+            region = photoInfo.getLocation().getCounty().getContent();
+        } else if (photoInfo.getLocation().getRegion() != null) {
+            region = photoInfo.getLocation().getRegion().getContent();
+        } else {
+            region = "";
+        }
+        String location = region + ", " + country;
         photo.setLocation(location);
         String iconFarm = String.valueOf(photoInfo.getOwner().getIconfarm());
         String iconServer = photoInfo.getOwner().getIconserver();

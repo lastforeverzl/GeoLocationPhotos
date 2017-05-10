@@ -139,9 +139,10 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
     }
 
     @Override
-    public void onItemClick(String lat, String lng) {
+    public void onItemClick(String location, String lat, String lng) {
         Toast.makeText(this, "lat: " + lat + ", lng: " + lng, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, GeoPhotosActivity.class);
+        intent.putExtra(GeoPhotosActivity.INTENT_EXTRA_LOCATION, location);
         intent.putExtra(GeoPhotosActivity.INTENT_EXTRA_LATITUDE, lat);
         intent.putExtra(GeoPhotosActivity.INTENT_EXTRA_LONGITUDE, lng);
         startActivity(intent);

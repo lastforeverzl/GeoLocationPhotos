@@ -33,13 +33,13 @@
                 android:transitionName="@string/transition_search_back"/>
 
             <TextView
-                android:id="@+id/title_geo_photos"
+                android:id="@+id/geo_photos_title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textSize="@dimen/user_name_size"
                 android:paddingLeft="16dp"
                 android:gravity="center|left"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/text_primary_dark"
                 android:text="Beijing"/>
 
         </android.support.v7.widget.Toolbar>
@@ -57,7 +57,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_geo_photos"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:scrollbars="vertical"
             android:scrollbarStyle="outsideOverlay"
             android:clipToPadding="false"

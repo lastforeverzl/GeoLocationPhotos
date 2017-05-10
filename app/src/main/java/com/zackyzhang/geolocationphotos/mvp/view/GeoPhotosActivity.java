@@ -1,5 +1,6 @@
 package com.zackyzhang.geolocationphotos.mvp.view;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,12 +14,13 @@ import android.widget.TextView;
 
 import com.zackyzhang.geolocationphotos.R;
 import com.zackyzhang.geolocationphotos.data.model.ReorgPhoto;
+import com.zackyzhang.geolocationphotos.mvp.GeoPhotosAdapter;
 import com.zackyzhang.geolocationphotos.mvp.GeoPhotosContract;
-import com.zackyzhang.geolocationphotos.mvp.SearchAdapter;
 import com.zackyzhang.geolocationphotos.mvp.presenter.GeoPhotosPresenter;
 
 import butterknife.BindInt;
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by lei on 5/8/17.
@@ -29,17 +31,19 @@ public class GeoPhotosActivity extends MvpActivity<GeoPhotosContract.View, GeoPh
 
     public static final String INTENT_EXTRA_LATITUDE = "com.zackyzhang.geolocationphotos.INTENT_EXTRA_LATITUDE";
     public static final String INTENT_EXTRA_LONGITUDE = "com.zackyzhang.geolocationphotos.INTENT_EXTRA_LONGITUDE";
+    public static final String INTENT_EXTRA_LOCATION = "com.zackyzhang.geolocationphotos.INTENT_EXTRA_LOCATION";
 
     private static final String TAG = "GeoPhotosActivity";
 
-    private SearchAdapter mSearchAdapter;
+    private GeoPhotosAdapter mGeoPhotosAdapter;
     private boolean isLoading = false;
     String lat;
     String lng;
+    String location;
 
     @BindView(R.id.rv_geo_photos)
     RecyclerView mRecyclerView;
-    @BindView(R.id.title_geo_photos)
+    @BindView(R.id.geo_photos_title)
     TextView title;
     @BindView(R.id.progress_bar)
     ProgressBar mProgressBar;
@@ -52,14 +56,16 @@ public class GeoPhotosActivity extends MvpActivity<GeoPhotosContract.View, GeoPh
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setSupportActionBar(mToolbar);
-        setupRecyclerView();
         init();
+        setupRecyclerView();
+        presenter.loadPhotos(lat, lng);
     }
 
     private void setupRecyclerView() {
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, columns));
-        mSearchAdapter = new SearchAdapter(this);
-        mRecyclerView.setAdapter(mSearchAdapter);
+        mGeoPhotosAdapter = new GeoPhotosAdapter(this);
+        mGeoPhotosAdapter.setLocation(this.lat, this.lng);
+        mRecyclerView.setAdapter(mGeoPhotosAdapter);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -74,27 +80,31 @@ public class GeoPhotosActivity extends MvpActivity<GeoPhotosContract.View, GeoPh
                 }
             }
         });
+//        setHeaderView(mRecyclerView);
     }
 
     @Override
     public void setLoadingStatusFalse() {
         this.isLoading = false;
+        Log.d(TAG, "isLoading = false");
     }
 
     @Override
     public void loadPhotos(ReorgPhoto data) {
-        mSearchAdapter.setPhotoList(data);
+        mGeoPhotosAdapter.setPhotoList(data);
         mProgressBar.setVisibility(View.GONE);
     }
 
     public void setLoadingStatusTrue() {
         this.isLoading = true;
+        Log.d(TAG, "isLoading = true");
     }
 
     private void init() {
         this.lat = getIntent().getStringExtra(GeoPhotosActivity.INTENT_EXTRA_LATITUDE);
         this.lng = getIntent().getStringExtra(GeoPhotosActivity.INTENT_EXTRA_LONGITUDE);
-        presenter.loadPhotos(lat, lng);
+        this.location = getIntent().getStringExtra(GeoPhotosActivity.INTENT_EXTRA_LOCATION);
+        title.setText(location);
     }
 
     @Override
@@ -105,5 +115,14 @@ public class GeoPhotosActivity extends MvpActivity<GeoPhotosContract.View, GeoPh
     @Override
     protected int getLayout() {
         return R.layout.activity_geophotos;
+    }
+
+    @OnClick(R.id.id_geophotosback)
+    protected void dismiss() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            finishAfterTransition();
+        } else {
+            finish();
+        }
     }
 }

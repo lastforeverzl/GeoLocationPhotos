@@ -29,7 +29,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
     private static final String TAG = "MainAdapter";
 
     public interface OnItemClickListener {
-        void onItemClick(String lat, String lng);
+        void onItemClick(String location, String lat, String lng);
     }
 
     private Context mContext;
@@ -51,19 +51,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-//        ReorgPhoto photo = mPhotos.get(position);
-//        Glide.with(mContext)
-//                .load(photo.getUrlC())
-//                .centerCrop()
-//                .into(holder.photo);
-//        holder.description.setText(photo.getDescription());
-//        holder.location.setText(photo.getLocation());
-//        holder.userName.setText(photo.getUsername());
-//        Glide.with(mContext)
-//                .load(photo.getAvatar_url())
-//                .bitmapTransform(new CropCircleTransformation(mContext))
-//                .placeholder(R.drawable.avatar_placeholder)
-//                .into(holder.avatar);
         holder.bind(mPhotos.get(position));
     }
 
@@ -133,7 +120,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
 
         @Override
         public void onClick(View v) {
-            mOnItemClickListener.onItemClick(mReorgPhoto.getLatitude(), mReorgPhoto.getLongitude());
+            mOnItemClickListener.onItemClick(mReorgPhoto.getLocation(), mReorgPhoto.getLatitude(), mReorgPhoto.getLongitude());
         }
     }
 

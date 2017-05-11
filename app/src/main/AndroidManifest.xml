@@ -35,6 +35,10 @@
         <activity android:name=".mvp.view.GeoPhotosActivity">
 
         </activity>
+
+        <activity android:name=".mvp.view.UserPhotosActivity">
+
+        </activity>
     </application>
 
 </manifest>

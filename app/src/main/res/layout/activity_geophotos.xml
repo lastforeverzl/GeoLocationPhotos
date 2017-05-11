@@ -36,10 +36,9 @@
                 android:id="@+id/geo_photos_title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textSize="@dimen/user_name_size"
-                android:paddingLeft="16dp"
+                android:paddingLeft="4dp"
                 android:gravity="center|left"
-                android:textColor="@color/text_primary_dark"
+                style="@style/CollapseTitle"
                 android:text="Beijing"/>
 
         </android.support.v7.widget.Toolbar>

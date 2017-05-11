@@ -22,7 +22,18 @@
             android:layout_height="?android:actionBarSize"
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <TextView
+                android:id="@+id/geo_photos_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:gravity="center_vertical"
+                style="@style/CollapseTitle"
+                android:text="@string/app_name"/>
 
         </android.support.v7.widget.Toolbar>
 

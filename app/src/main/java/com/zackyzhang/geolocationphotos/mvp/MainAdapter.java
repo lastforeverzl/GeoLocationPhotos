@@ -29,7 +29,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
     private static final String TAG = "MainAdapter";
 
     public interface OnItemClickListener {
-        void onItemClick(String location, String lat, String lng);
+        void onLocationClick(String location, String lat, String lng);
+
+        void onAvatarClick(View avatar, String nsid, String avatarUrl, String username);
     }
 
     private Context mContext;
@@ -107,7 +109,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
                     .load(mReorgPhoto.getUrlC())
                     .centerCrop()
                     .into(photo);
-            description.setText(mReorgPhoto.getDescription());
+            if (mReorgPhoto.getDescription() == "") {
+                description.setVisibility(View.GONE);
+            } else {
+                description.setText(mReorgPhoto.getDescription());
+            }
+
             location.setText(mReorgPhoto.getLocation());
             userName.setText(mReorgPhoto.getUsername());
             Glide.with(mContext)
@@ -116,11 +123,22 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
                     .placeholder(R.drawable.avatar_placeholder)
                     .into(avatar);
             locationContainer.setOnClickListener(this);
+            avatar.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            mOnItemClickListener.onItemClick(mReorgPhoto.getLocation(), mReorgPhoto.getLatitude(), mReorgPhoto.getLongitude());
+            switch (v.getId()) {
+                case R.id.location_container:
+                    mOnItemClickListener.onLocationClick(mReorgPhoto.getLocation(), mReorgPhoto.getLatitude(), mReorgPhoto.getLongitude());
+                    break;
+                case R.id.id_avatar:
+                    mOnItemClickListener.onAvatarClick(avatar, mReorgPhoto.getNsid(), mReorgPhoto.getAvatar_url(), mReorgPhoto.getUsername());
+                    break;
+                default:
+                    break;
+            }
+
         }
     }
 

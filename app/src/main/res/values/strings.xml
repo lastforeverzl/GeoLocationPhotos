@@ -1,7 +1,8 @@
 <resources>
-    <string name="app_name">GeoLocationPhotos</string>
+    <string name="app_name">Photour</string>
     <string name="search">Search</string>
     <string name="transition_search_back">transition_search_back</string>
     <string name="recent_search">Recent Searches</string>
     <string name="saved_search">Saved Searches</string>
+    <string name="avatar_transition">avatar_transition</string>
 </resources>

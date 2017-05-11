@@ -58,6 +58,7 @@ public abstract class BaseDataManager {
     }
 
     public void resetPage() {
+        Log.d(TAG, "page: " + photoPage + ", rawPhotos: " + rawPhotos.size() + ", photoIdSet: " + photoIdSet.size());
         photoPage = 1;
         rawPhotos.clear();
         photoIdSet.clear();
@@ -66,6 +67,7 @@ public abstract class BaseDataManager {
     protected void combineWithPhotoInfo() {
         Flowable<Photo> flowable = Flowable.fromIterable(rawPhotos);
         flowable.filter(photo -> photo.getUrlC() != null)
+                .filter(photo -> photo.getLatitude() != 0 || photo.getLongitude() != 0)
                 .filter(photo -> !photoIdSet.contains(photo.getId()))
                 .subscribe(
                         photo -> {
@@ -126,6 +128,7 @@ public abstract class BaseDataManager {
         String iconServer = photoInfo.getOwner().getIconserver();
         String nsid = photoInfo.getOwner().getNsid();
         String avatarUrl = "http://farm" + iconFarm + ".staticflickr.com/" + iconServer + "/buddyicons/" + nsid + ".jpg";
+        photo.setNsid(nsid);
         photo.setAvatar_url(avatarUrl);
     }
 

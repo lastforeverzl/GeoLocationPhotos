@@ -29,7 +29,6 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
     private MainAdapter mMainAdapter;
     private boolean isLoading = false;
     private boolean isRefreshing = false;
-    private MainAdapter.OnItemClickListener mOnItemClickListener;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -139,12 +138,30 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
     }
 
     @Override
-    public void onItemClick(String location, String lat, String lng) {
+    public void onLocationClick(String location, String lat, String lng) {
         Toast.makeText(this, "lat: " + lat + ", lng: " + lng, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, GeoPhotosActivity.class);
         intent.putExtra(GeoPhotosActivity.INTENT_EXTRA_LOCATION, location);
         intent.putExtra(GeoPhotosActivity.INTENT_EXTRA_LATITUDE, lat);
         intent.putExtra(GeoPhotosActivity.INTENT_EXTRA_LONGITUDE, lng);
         startActivity(intent);
+    }
+
+    @Override
+    public void onAvatarClick(View avatar, String nsid, String avatarUrl, String username) {
+        Toast.makeText(this, nsid, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, UserPhotosActivity.class);
+        intent.putExtra(UserPhotosActivity.INTENT_EXTRA_USER_ID, nsid);
+        intent.putExtra(UserPhotosActivity.INTENT_EXTRA_AVATAR_URL, avatarUrl);
+        intent.putExtra(UserPhotosActivity.INTENT_EXTRA_USERNAME, username);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions transitionActivityOptions = ActivityOptions.
+                    makeSceneTransitionAnimation(MainActivity.this, avatar, getString(R.string.avatar_transition));
+            startActivity(intent, transitionActivityOptions.toBundle());
+        } else {
+            startActivity(intent);
+        }
+
     }
 }

@@ -6,6 +6,7 @@ package com.zackyzhang.geolocationphotos.data.model;
 
 public class ReorgPhoto {
     private String id;
+    private String nsid;
     private String username;
     private String description;
     private String latitude;
@@ -21,6 +22,14 @@ public class ReorgPhoto {
 
     public String getId() {
         return id;
+    }
+
+    public String getNsid() {
+        return nsid;
+    }
+
+    public void setNsid(String nsid) {
+        this.nsid = nsid;
     }
 
     public String getUsername() {

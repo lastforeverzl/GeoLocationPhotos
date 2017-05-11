@@ -101,9 +101,9 @@ public class GeoPhotosActivity extends MvpActivity<GeoPhotosContract.View, GeoPh
     }
 
     private void init() {
-        this.lat = getIntent().getStringExtra(GeoPhotosActivity.INTENT_EXTRA_LATITUDE);
-        this.lng = getIntent().getStringExtra(GeoPhotosActivity.INTENT_EXTRA_LONGITUDE);
-        this.location = getIntent().getStringExtra(GeoPhotosActivity.INTENT_EXTRA_LOCATION);
+        this.lat = getIntent().getStringExtra(INTENT_EXTRA_LATITUDE);
+        this.lng = getIntent().getStringExtra(INTENT_EXTRA_LONGITUDE);
+        this.location = getIntent().getStringExtra(INTENT_EXTRA_LOCATION);
         title.setText(location);
     }
 

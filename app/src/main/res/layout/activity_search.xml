@@ -94,7 +94,7 @@
         android:layout_marginTop="?android:actionBarSize"
         android:background="@color/colorPrimary"
         android:elevation="@dimen/app_bar_elevation"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/photo_list"

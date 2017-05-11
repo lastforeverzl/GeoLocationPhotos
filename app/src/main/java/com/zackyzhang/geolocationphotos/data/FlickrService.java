@@ -31,4 +31,10 @@ public interface FlickrService {
     @GET("?method=flickr.photos.getInfo&format=json&nojsoncallback=1")
     Observable<PhotoInfoResponse> getPhotoInfo(@Query("api_key") String api_key,
                                                @Query("photo_id") String photo_id);
+
+    @GET("?method=flickr.people.getPublicPhotos&format=json&nojsoncallback=1")
+    Observable<PhotosResponse> getUserPublicPhotos(@Query("api_key") String api_key,
+                                                   @Query("extras") String extras,
+                                                   @Query("page") String page,
+                                                   @Query("user_id") String user_id);
 }

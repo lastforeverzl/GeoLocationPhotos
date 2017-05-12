@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.zackyzhang.geolocationphotos.R;
 import com.zackyzhang.geolocationphotos.data.model.ReorgPhoto;
@@ -139,7 +138,6 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
 
     @Override
     public void onLocationClick(String location, String lat, String lng) {
-        Toast.makeText(this, "lat: " + lat + ", lng: " + lng, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, GeoPhotosActivity.class);
         intent.putExtra(GeoPhotosActivity.INTENT_EXTRA_LOCATION, location);
         intent.putExtra(GeoPhotosActivity.INTENT_EXTRA_LATITUDE, lat);
@@ -149,7 +147,6 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
 
     @Override
     public void onAvatarClick(View avatar, String nsid, String avatarUrl, String username) {
-        Toast.makeText(this, nsid, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, UserPhotosActivity.class);
         intent.putExtra(UserPhotosActivity.INTENT_EXTRA_USER_ID, nsid);
         intent.putExtra(UserPhotosActivity.INTENT_EXTRA_AVATAR_URL, avatarUrl);

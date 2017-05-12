@@ -187,7 +187,6 @@ public class SearchActivity extends MvpActivity<SearchContract.View, SearchContr
         recentSearchList.setLayoutManager(chipsLayoutManager);
         recentSearchList.addItemDecoration(new SpacingItemDecoration(getResources().getDimensionPixelOffset(R.dimen.query_item_space),
                 getResources().getDimensionPixelOffset(R.dimen.query_item_space)));
-//        recentSearchList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mQueryListAdapter = new QueryListAdapter(this);
         recentSearchList.setAdapter(mQueryListAdapter);
     }

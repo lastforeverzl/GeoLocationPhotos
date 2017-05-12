@@ -13,9 +13,6 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.maps.MapView;
 import com.zackyzhang.geolocationphotos.R;
 import com.zackyzhang.geolocationphotos.data.model.ReorgPhoto;
 import com.zackyzhang.geolocationphotos.mvp.GeoPhotosAdapter;
@@ -85,7 +82,6 @@ public class GeoPhotosActivity extends MvpActivity<GeoPhotosContract.View, GeoPh
                 }
             }
         });
-//        setHeaderView(mRecyclerView);
     }
 
     @Override
@@ -138,52 +134,4 @@ public class GeoPhotosActivity extends MvpActivity<GeoPhotosContract.View, GeoPh
         startActivity(intent);
     }
 
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        MapView mapView = mGeoPhotosAdapter.getMapView();
-        if (mapView != null) {
-            Log.d(TAG, "mapView.onLowMemory();");
-            mapView.onLowMemory();
-        }
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        MapView mapView = mGeoPhotosAdapter.getMapView();
-        if (mapView != null) {
-            Log.d(TAG, "mapView.onPause();");
-            mapView.onPause();
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-        MapView mapView = mGeoPhotosAdapter.getMapView();
-        if (resultCode == ConnectionResult.SUCCESS) {
-            Log.d(TAG, "ConnectionResult.SUCCESS");
-            mRecyclerView.setAdapter(mGeoPhotosAdapter);
-        } else {
-            GooglePlayServicesUtil.getErrorDialog(resultCode, this, 1).show();
-        }
-
-        if (mapView != null) {
-            Log.d(TAG, "mapView.onResume();");
-            mapView.onResume();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        MapView mapView = mGeoPhotosAdapter.getMapView();
-        if (mapView != null) {
-            Log.d(TAG, "mapView.onDestroy()");
-            mapView.onDestroy();
-        }
-        super.onDestroy();
-    }
 }

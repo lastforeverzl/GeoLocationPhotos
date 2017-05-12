@@ -1,6 +1,7 @@
 package com.zackyzhang.geolocationphotos.mvp;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -8,18 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.zackyzhang.geolocationphotos.BuildConfig;
 import com.zackyzhang.geolocationphotos.R;
 import com.zackyzhang.geolocationphotos.data.model.ReorgPhoto;
 
@@ -39,6 +31,11 @@ public class GeoPhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public static final int TYPE_HEADER = 0;
     public static final int TYPE_NORMAL = 1;
+    public static final int ZOOM = 12;
+    public static final String HORIZONTAL_VALUE = "640";
+    public static final String VERTICAL_VALUE = "300";
+    public static final String KEY = BuildConfig.GOOGLE_API_KEY;
+    public static final String SCALE = "2";
 
     public interface OnImageClickListener {
         void onPhotoClick(String photoUrl);
@@ -47,7 +44,6 @@ public class GeoPhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     private List<ReorgPhoto> mPhotos;
-    private MapView mapView;
     private double latitude;
     private double longitude;
     private OnImageClickListener mOnImageClickListener;
@@ -65,10 +61,6 @@ public class GeoPhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             Log.d(TAG, "onCreateViewHolder TYPE_HEADER");
             View v = mLayoutInflater.inflate(R.layout.map_header, parent, false);
             holder = new HeaderHolder(v);
-            if (mapView == null) {
-                Log.d(TAG, "mapView is null, will create a new one.");
-                mapView = ((HeaderHolder) holder).mMapView;
-            }
         } else {
             View v = mLayoutInflater.inflate(R.layout.search_list_item, parent, false);
             holder = new Holder(v);
@@ -80,7 +72,7 @@ public class GeoPhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == TYPE_HEADER) {
-//            ((HeaderHolder) holder).mTextView.setText("This is Header");
+            ((HeaderHolder) holder).bind();
         } else {
             ((Holder) holder).bind(mPhotos.get(position));
         }
@@ -136,40 +128,24 @@ public class GeoPhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return mPhotos.size();
     }
 
-    public MapView getMapView() {
-        return this.mapView;
-    }
-
-    public class HeaderHolder extends RecyclerView.ViewHolder implements OnMapReadyCallback {
-
-        protected GoogleMap mGoogleMap;
+    public class HeaderHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.map_view)
-        MapView mMapView;
+        ImageView mMapView;
 
         public HeaderHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            mMapView.onCreate(null);
-            mMapView.onResume();
-            mMapView.getMapAsync(this);
         }
 
-        @Override
-        public void onMapReady(GoogleMap googleMap) {
-            mGoogleMap = googleMap;
-
-            MapsInitializer.initialize(mContext);
-            mGoogleMap.getUiSettings().setMapToolbarEnabled(false);
-            mGoogleMap.clear();
-
-            LatLng latLng = new LatLng(latitude, longitude);
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 13f);
-            mGoogleMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_map_marker)));
-            mGoogleMap.moveCamera(cameraUpdate);
-            mGoogleMap.setOnMapClickListener(latLng1 -> Toast.makeText(mContext, "onMapClick", Toast.LENGTH_SHORT).show());
+        public void bind() {
+            Glide.with(mContext)
+                    .load(getMapUrl())
+                    .centerCrop()
+                    .into(mMapView);
         }
+
     }
 
     public void setOnImageClickListener(OnImageClickListener onImageClickListener) {
@@ -202,4 +178,19 @@ public class GeoPhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
+    private String getMapUrl() {
+        String center = String.valueOf(latitude) + "," + String.valueOf(longitude);
+        String size = HORIZONTAL_VALUE + "x" + VERTICAL_VALUE;
+        String url = Uri.parse("https://maps.googleapis.com/maps/api/staticmap")
+                .buildUpon()
+                .appendQueryParameter("center", center)
+                .appendQueryParameter("zoom", String.valueOf(ZOOM))
+                .appendQueryParameter("size", size)
+                .appendQueryParameter("key", KEY)
+                .appendQueryParameter("scale", SCALE)
+                .appendQueryParameter("maptype", "terrain")
+                .build().toString();
+        Log.d(TAG, url);
+        return url;
+    }
 }

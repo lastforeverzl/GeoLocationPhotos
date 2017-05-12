@@ -15,6 +15,7 @@ android {
         buildConfigField "String", "FLICKR_API_KEY", "\"${flickr_api_key}\""
         buildConfigField "String", "FLICKR_API_SECRET", "\"${flickr_api_secret}\""
         resValue "string", "google_api_key", (project.findProperty("google_api_key") ?: "")
+        buildConfigField "String", "GOOGLE_API_KEY", "\"${google_api_key}\""
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {

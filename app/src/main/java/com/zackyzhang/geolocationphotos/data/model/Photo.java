@@ -85,6 +85,12 @@ public class Photo extends BasePhoto{
     private String heightZ;
     @SerializedName("width_z")
     private String widthZ;
+    @SerializedName("url_l")
+    private String urlL;
+    @SerializedName("height_l")
+    private String heightL;
+    @SerializedName("width_l")
+    private String widthL;
 
 
 
@@ -286,5 +292,29 @@ public class Photo extends BasePhoto{
 
     public void setwidthZ(String widthQ) {
         this.widthZ = widthZ;
+    }
+
+    public String getUrlL() {
+        return urlL;
+    }
+
+    public void setUrlL(String urlL) {
+        this.urlL = urlL;
+    }
+
+    public String getHeightL() {
+        return heightL;
+    }
+
+    public void setHeightL(String heightL) {
+        this.heightL = heightL;
+    }
+
+    public String getwidthL() {
+        return widthL;
+    }
+
+    public void setwidthL(String widthL) {
+        this.widthL = widthL;
     }
 }

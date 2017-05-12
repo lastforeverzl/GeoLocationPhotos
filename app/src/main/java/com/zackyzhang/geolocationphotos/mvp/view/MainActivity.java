@@ -164,4 +164,13 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
         }
 
     }
+
+    @Override
+    public void onPhotoClick(String photoUrl) {
+        Intent intent = new Intent(this, ImageActivity.class);
+        Log.d(TAG, photoUrl);
+        intent.putExtra(ImageActivity.INTENT_EXTRA_PHOTO_URL, photoUrl);
+        startActivity(intent);
+    }
+
 }

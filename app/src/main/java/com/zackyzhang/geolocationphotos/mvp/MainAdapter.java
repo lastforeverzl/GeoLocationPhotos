@@ -32,6 +32,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
         void onLocationClick(String location, String lat, String lng);
 
         void onAvatarClick(View avatar, String nsid, String avatarUrl, String username);
+
+        void onPhotoClick(String photoUrl);
     }
 
     private Context mContext;
@@ -124,6 +126,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
                     .into(avatar);
             locationContainer.setOnClickListener(this);
             avatar.setOnClickListener(this);
+            photo.setOnClickListener(this);
         }
 
         @Override
@@ -135,6 +138,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
                 case R.id.id_avatar:
                     mOnItemClickListener.onAvatarClick(avatar, mReorgPhoto.getNsid(), mReorgPhoto.getAvatar_url(), mReorgPhoto.getUsername());
                     break;
+                case R.id.id_photo:
+                    mOnItemClickListener.onPhotoClick(mReorgPhoto.getUrlL());
                 default:
                     break;
             }

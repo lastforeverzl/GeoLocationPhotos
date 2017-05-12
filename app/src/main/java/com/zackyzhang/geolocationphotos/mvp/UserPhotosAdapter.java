@@ -18,6 +18,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by lei on 5/10/17.
@@ -26,9 +27,14 @@ import butterknife.ButterKnife;
 public class UserPhotosAdapter extends RecyclerView.Adapter<UserPhotosAdapter.Holder> {
     private static final String TAG = "UserPhotosAdapter";
 
+    public interface OnImageClickListener {
+        void onPhotoClick(String photoUrl);
+    }
+
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     private List<ReorgPhoto> mPhotos;
+    private OnImageClickListener mOnImageClickListener;
 
     public UserPhotosAdapter(Context context) {
         this.mContext = context;
@@ -57,7 +63,13 @@ public class UserPhotosAdapter extends RecyclerView.Adapter<UserPhotosAdapter.Ho
         notifyDataSetChanged();
     }
 
+    public void setOnImageClickListener(OnImageClickListener onImageClickListener) {
+        this.mOnImageClickListener = onImageClickListener;
+    }
+
     public class Holder extends RecyclerView.ViewHolder {
+
+        ReorgPhoto mReorgPhoto;
 
         @BindView(R.id.id_location)
         TextView location;
@@ -74,6 +86,7 @@ public class UserPhotosAdapter extends RecyclerView.Adapter<UserPhotosAdapter.Ho
         }
 
         public void bind(ReorgPhoto reorgPhoto) {
+            mReorgPhoto = reorgPhoto;
             if (reorgPhoto.getDescription() == "") {
                 description.setVisibility(View.GONE);
             } else {
@@ -85,6 +98,11 @@ public class UserPhotosAdapter extends RecyclerView.Adapter<UserPhotosAdapter.Ho
                     .load(reorgPhoto.getUrlC())
                     .centerCrop()
                     .into(photo);
+        }
+
+        @OnClick(R.id.id_photo)
+        public void click() {
+            mOnImageClickListener.onPhotoClick(mReorgPhoto.getUrlL());
         }
     }
 

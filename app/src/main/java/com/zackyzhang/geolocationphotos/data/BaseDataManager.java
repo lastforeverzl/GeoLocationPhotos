@@ -22,7 +22,7 @@ public abstract class BaseDataManager {
 
     private static final String TAG = "BaseDataManager";
 
-    protected static final String EXTRAS = "geo,url_c,url_z";
+    protected static final String EXTRAS = "geo,url_c,url_z,url_l";
     private FlickrApi mFlickrApi;
 
     protected int photoCount = 0;
@@ -74,6 +74,7 @@ public abstract class BaseDataManager {
                             ReorgPhoto newPhoto = new ReorgPhoto(photo.getId());
                             newPhoto.setUrlC(photo.getUrlC());
                             newPhoto.setUrlZ(photo.getUrlZ());
+                            newPhoto.setUrlL(photo.getUrlL());
                             increasePhotoCount(photo.getId());
                             photoIdSet.add(newPhoto.getId());
                             loadPhotoInfo(newPhoto);

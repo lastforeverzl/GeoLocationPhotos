@@ -15,6 +15,7 @@ public class ReorgPhoto {
     private String avatar_url;
     private String url_c;
     private String url_z;
+    private String url_l;
 
     public ReorgPhoto(String id) {
         this.id = id;
@@ -94,6 +95,14 @@ public class ReorgPhoto {
 
     public void setUrlZ(String url_z) {
         this.url_z = url_z;
+    }
+
+    public String getUrlL() {
+        return url_l;
+    }
+
+    public void setUrlL(String url_l) {
+        this.url_l = url_l;
     }
 
     @Override

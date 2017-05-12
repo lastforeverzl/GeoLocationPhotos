@@ -28,6 +28,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by lei on 4/29/17.
@@ -39,12 +40,17 @@ public class GeoPhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public static final int TYPE_HEADER = 0;
     public static final int TYPE_NORMAL = 1;
 
+    public interface OnImageClickListener {
+        void onPhotoClick(String photoUrl);
+    }
+
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     private List<ReorgPhoto> mPhotos;
     private MapView mapView;
     private double latitude;
     private double longitude;
+    private OnImageClickListener mOnImageClickListener;
 
     public GeoPhotosAdapter(Context context) {
         this.mContext = context;
@@ -60,6 +66,7 @@ public class GeoPhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             View v = mLayoutInflater.inflate(R.layout.map_header, parent, false);
             holder = new HeaderHolder(v);
             if (mapView == null) {
+                Log.d(TAG, "mapView is null, will create a new one.");
                 mapView = ((HeaderHolder) holder).mMapView;
             }
         } else {
@@ -73,15 +80,9 @@ public class GeoPhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == TYPE_HEADER) {
-            Log.d(TAG, "the first position: " + position);
 //            ((HeaderHolder) holder).mTextView.setText("This is Header");
         } else {
-            Log.d(TAG, "position: " + position);
-            ReorgPhoto photo = mPhotos.get(position);
-            Glide.with(mContext)
-                    .load(photo.getUrlZ())
-                    .centerCrop()
-                    .into(((Holder) holder).photo);
+            ((Holder) holder).bind(mPhotos.get(position));
         }
     }
 
@@ -171,8 +172,13 @@ public class GeoPhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
+    public void setOnImageClickListener(OnImageClickListener onImageClickListener) {
+        this.mOnImageClickListener = onImageClickListener;
+    }
 
     public class Holder extends RecyclerView.ViewHolder {
+
+        ReorgPhoto mReorgPhoto;
 
         @BindView(R.id.photo)
         ImageView photo;
@@ -181,5 +187,19 @@ public class GeoPhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+
+        public void bind(ReorgPhoto reorgPhoto) {
+            mReorgPhoto = reorgPhoto;
+            Glide.with(mContext)
+                    .load(reorgPhoto.getUrlZ())
+                    .centerCrop()
+                    .into(photo);
+        }
+
+        @OnClick(R.id.photo)
+        public void click() {
+            mOnImageClickListener.onPhotoClick(mReorgPhoto.getUrlL());
+        }
     }
+
 }

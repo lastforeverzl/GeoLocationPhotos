@@ -1,11 +1,13 @@
 package com.zackyzhang.geolocationphotos.mvp.view;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -26,7 +28,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  */
 
 public class UserPhotosActivity extends MvpActivity<UserPhotosContract.View, UserPhotosContract.Presenter>
-        implements UserPhotosContract.View{
+        implements UserPhotosContract.View, UserPhotosAdapter.OnImageClickListener{
 
     public static final String INTENT_EXTRA_USER_ID = "com.zackyzhang.geolocationphotos.INTENT_EXTRA_USER_ID";
     public static final String INTENT_EXTRA_AVATAR_URL = "com.zackyzhang.geolocationphotos.INTENT_EXTRA_AVATAR_URL";
@@ -99,8 +101,23 @@ public class UserPhotosActivity extends MvpActivity<UserPhotosContract.View, Use
     private void setupRecyclerView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mUserPhotosAdapter = new UserPhotosAdapter(this);
+        mUserPhotosAdapter.setOnImageClickListener(this);
         mRecyclerView.setAdapter(mUserPhotosAdapter);
         // TODO: 5/10/17 recyclerview load more pages.
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                int lastVisibleItem = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
+                int totalItemCount = recyclerView.getLayoutManager().getItemCount();
+                if (lastVisibleItem >= totalItemCount - 2 && dy > 0 && !isLoading) {
+                    Log.d(TAG, "loading more photos");
+                    setLoadingStatusTrue();
+                    presenter.loadMorePhotos(userId);
+                }
+            }
+        });
     }
 
     @OnClick(R.id.id_userphotosback)
@@ -110,5 +127,12 @@ public class UserPhotosActivity extends MvpActivity<UserPhotosContract.View, Use
         } else {
             finish();
         }
+    }
+
+    @Override
+    public void onPhotoClick(String photoUrl) {
+        Intent intent = new Intent(this, ImageActivity.class);
+        intent.putExtra(ImageActivity.INTENT_EXTRA_PHOTO_URL, photoUrl);
+        startActivity(intent);
     }
 }

@@ -1,5 +1,6 @@
 package com.zackyzhang.geolocationphotos.mvp.view;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.maps.MapView;
 import com.zackyzhang.geolocationphotos.R;
 import com.zackyzhang.geolocationphotos.data.model.ReorgPhoto;
 import com.zackyzhang.geolocationphotos.mvp.GeoPhotosAdapter;
@@ -27,7 +31,7 @@ import butterknife.OnClick;
  */
 
 public class GeoPhotosActivity extends MvpActivity<GeoPhotosContract.View, GeoPhotosContract.Presenter>
-        implements GeoPhotosContract.View {
+        implements GeoPhotosContract.View, GeoPhotosAdapter.OnImageClickListener {
 
     public static final String INTENT_EXTRA_LATITUDE = "com.zackyzhang.geolocationphotos.INTENT_EXTRA_LATITUDE";
     public static final String INTENT_EXTRA_LONGITUDE = "com.zackyzhang.geolocationphotos.INTENT_EXTRA_LONGITUDE";
@@ -64,6 +68,7 @@ public class GeoPhotosActivity extends MvpActivity<GeoPhotosContract.View, GeoPh
     private void setupRecyclerView() {
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, columns));
         mGeoPhotosAdapter = new GeoPhotosAdapter(this);
+        mGeoPhotosAdapter.setOnImageClickListener(this);
         mGeoPhotosAdapter.setLocation(this.lat, this.lng);
         mRecyclerView.setAdapter(mGeoPhotosAdapter);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -124,5 +129,61 @@ public class GeoPhotosActivity extends MvpActivity<GeoPhotosContract.View, GeoPh
         } else {
             finish();
         }
+    }
+
+    @Override
+    public void onPhotoClick(String photoUrl) {
+        Intent intent = new Intent(this, ImageActivity.class);
+        intent.putExtra(ImageActivity.INTENT_EXTRA_PHOTO_URL, photoUrl);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        MapView mapView = mGeoPhotosAdapter.getMapView();
+        if (mapView != null) {
+            Log.d(TAG, "mapView.onLowMemory();");
+            mapView.onLowMemory();
+        }
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MapView mapView = mGeoPhotosAdapter.getMapView();
+        if (mapView != null) {
+            Log.d(TAG, "mapView.onPause();");
+            mapView.onPause();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        MapView mapView = mGeoPhotosAdapter.getMapView();
+        if (resultCode == ConnectionResult.SUCCESS) {
+            Log.d(TAG, "ConnectionResult.SUCCESS");
+            mRecyclerView.setAdapter(mGeoPhotosAdapter);
+        } else {
+            GooglePlayServicesUtil.getErrorDialog(resultCode, this, 1).show();
+        }
+
+        if (mapView != null) {
+            Log.d(TAG, "mapView.onResume();");
+            mapView.onResume();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        MapView mapView = mGeoPhotosAdapter.getMapView();
+        if (mapView != null) {
+            Log.d(TAG, "mapView.onDestroy()");
+            mapView.onDestroy();
+        }
+        super.onDestroy();
     }
 }

@@ -1,5 +1,6 @@
 package com.zackyzhang.geolocationphotos.mvp.view;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -41,7 +42,7 @@ import butterknife.OnClick;
  */
 
 public class SearchActivity extends MvpActivity<SearchContract.View, SearchContract.Presenter>
-        implements SearchContract.View, PlaceSelectionListener{
+        implements SearchContract.View, PlaceSelectionListener, SearchAdapter.OnImageClickListener{
     private static final String TAG = "SearchActivity";
 
     private PlaceAutocompleteFragment placeAutocompleteFragment;
@@ -162,6 +163,7 @@ public class SearchActivity extends MvpActivity<SearchContract.View, SearchContr
     private void setupRecyclerView() {
         recyclerView.setLayoutManager(new GridLayoutManager(this, columns));
         mSearchAdapter = new SearchAdapter(this);
+        mSearchAdapter.setOnImageClickListener(this);
         recyclerView.setAdapter(mSearchAdapter);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -223,4 +225,10 @@ public class SearchActivity extends MvpActivity<SearchContract.View, SearchContr
         mQueryListAdapter.clearQueryList();
     }
 
+    @Override
+    public void onPhotoClick(String photoUrl) {
+        Intent intent = new Intent(this, ImageActivity.class);
+        intent.putExtra(ImageActivity.INTENT_EXTRA_PHOTO_URL, photoUrl);
+        startActivity(intent);
+    }
 }

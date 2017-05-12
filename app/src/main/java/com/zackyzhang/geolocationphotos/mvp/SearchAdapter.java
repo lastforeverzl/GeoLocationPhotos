@@ -17,6 +17,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by lei on 5/9/17.
@@ -25,9 +26,14 @@ import butterknife.ButterKnife;
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> {
     private static final String TAG = "SearchAdapter";
 
+    public interface OnImageClickListener {
+        void onPhotoClick(String photoUrl);
+    }
+
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     private List<ReorgPhoto> mPhotos;
+    private OnImageClickListener mOnImageClickListener;
 
     public SearchAdapter(Context context) {
         this.mContext = context;
@@ -43,11 +49,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> {
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-        ReorgPhoto photo = mPhotos.get(position);
-        Glide.with(mContext)
-                .load(photo.getUrlZ())
-                .centerCrop()
-                .into(holder.photo);
+//        ReorgPhoto photo = mPhotos.get(position);
+//        Glide.with(mContext)
+//                .load(photo.getUrlZ())
+//                .centerCrop()
+//                .into(holder.photo);
+        holder.bind(mPhotos.get(position));
     }
 
     public void clearAdapter() {
@@ -71,7 +78,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> {
         return mPhotos.size();
     }
 
+    public void setOnImageClickListener(OnImageClickListener onImageClickListener) {
+        this.mOnImageClickListener = onImageClickListener;
+    }
+
     public class Holder extends RecyclerView.ViewHolder {
+
+        ReorgPhoto mReorgPhoto;
 
         @BindView(R.id.photo)
         ImageView photo;
@@ -79,6 +92,19 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> {
         public Holder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+        }
+
+        public void bind(ReorgPhoto reorgPhoto) {
+            mReorgPhoto = reorgPhoto;
+            Glide.with(mContext)
+                    .load(reorgPhoto.getUrlZ())
+                    .centerCrop()
+                    .into(photo);
+        }
+
+        @OnClick(R.id.photo)
+        public void click() {
+            mOnImageClickListener.onPhotoClick(mReorgPhoto.getUrlL());
         }
     }
 }

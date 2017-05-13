@@ -1,9 +1,11 @@
 package com.zackyzhang.geolocationphotos.mvp.view;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -132,6 +134,29 @@ public class GeoPhotosActivity extends MvpActivity<GeoPhotosContract.View, GeoPh
         Intent intent = new Intent(this, ImageActivity.class);
         intent.putExtra(ImageActivity.INTENT_EXTRA_PHOTO_URL, photoUrl);
         startActivity(intent);
+    }
+
+    @Override
+    public void onMapClick(double lat, double lng) {
+        createAlertDialog();
+    }
+
+    private void createAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+        builder.setMessage("Open in Google Map?");
+        String positiveText = getString(android.R.string.ok);
+        builder.setPositiveButton(positiveText, (dialog, which) -> toGoogleMap());
+        String negativeText = getString(android.R.string.cancel);
+        builder.setNegativeButton(negativeText, (dialog, which) -> {});
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void toGoogleMap() {
+        Uri gmmIntentUri = Uri.parse("geo:" + lat + "," + lng + "?z=12");
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
     }
 
 }

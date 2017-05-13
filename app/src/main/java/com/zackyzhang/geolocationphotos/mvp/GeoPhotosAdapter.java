@@ -39,6 +39,8 @@ public class GeoPhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public interface OnImageClickListener {
         void onPhotoClick(String photoUrl);
+
+        void onMapClick(double lat, double lng);
     }
 
     private Context mContext;
@@ -58,7 +60,6 @@ public class GeoPhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder holder;
         if (viewType == TYPE_HEADER) {
-            Log.d(TAG, "onCreateViewHolder TYPE_HEADER");
             View v = mLayoutInflater.inflate(R.layout.map_header, parent, false);
             holder = new HeaderHolder(v);
         } else {
@@ -146,7 +147,12 @@ public class GeoPhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     .into(mMapView);
         }
 
+        @OnClick(R.id.map_view)
+        public void click() {
+            mOnImageClickListener.onMapClick(latitude, longitude);
+        }
     }
+
 
     public void setOnImageClickListener(OnImageClickListener onImageClickListener) {
         this.mOnImageClickListener = onImageClickListener;

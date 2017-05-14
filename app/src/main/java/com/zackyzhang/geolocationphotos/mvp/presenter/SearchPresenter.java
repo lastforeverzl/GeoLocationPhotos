@@ -1,7 +1,6 @@
 package com.zackyzhang.geolocationphotos.mvp.presenter;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.zackyzhang.geolocationphotos.data.SearchDataManager;
 import com.zackyzhang.geolocationphotos.data.SharedPreferencesManager;
@@ -40,10 +39,8 @@ public class SearchPresenter extends MvpPresenter<SearchContract.View> implement
     @Override
     public void getRecentQuery() {
         List<RecentQuery> queryList = mSharedPreferencesManager.getRecentQuery();
-        for (RecentQuery item : queryList) {
-            Log.d(TAG, item.getLocation() + ": " + item.getLatitude() + ", " + item.getLongitude());
-        }
-        getView().loadRecentSearches(queryList);
+        if (queryList != null)
+            getView().loadRecentSearches(queryList);
     }
 
     @Override

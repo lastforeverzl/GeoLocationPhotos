@@ -21,7 +21,8 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     packagingOptions{
@@ -76,5 +77,6 @@ dependencies {
     compile 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
     compile 'com.github.chrisbanes:PhotoView:2.0.0'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     testCompile 'junit:junit:4.12'
 }

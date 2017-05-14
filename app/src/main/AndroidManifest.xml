@@ -21,7 +21,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_api_key"/>
 
-        <activity android:name=".mvp.view.MainActivity">
+        <activity android:name=".mvp.view.MainActivity"
+                  android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -29,19 +30,23 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".mvp.view.SearchActivity">
+        <activity android:name=".mvp.view.SearchActivity"
+                  android:screenOrientation="portrait">
 
         </activity>
 
-        <activity android:name=".mvp.view.GeoPhotosActivity">
+        <activity android:name=".mvp.view.GeoPhotosActivity"
+                  android:screenOrientation="portrait">
 
         </activity>
 
-        <activity android:name=".mvp.view.UserPhotosActivity">
+        <activity android:name=".mvp.view.UserPhotosActivity"
+                  android:screenOrientation="portrait">
 
         </activity>
 
-        <activity android:name=".mvp.view.ImageActivity">
+        <activity android:name=".mvp.view.ImageActivity"
+                  android:screenOrientation="portrait">
 
         </activity>
     </application>

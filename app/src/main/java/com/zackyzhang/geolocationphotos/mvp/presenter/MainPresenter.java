@@ -9,7 +9,6 @@ import com.zackyzhang.geolocationphotos.mvp.MainContract;
  */
 
 public class MainPresenter extends MvpPresenter<MainContract.View> implements MainContract.Presenter {
-    private static final String TAG = "MainPresenter";
 
     private PhotoDataManager mPhotoDataManager;
 

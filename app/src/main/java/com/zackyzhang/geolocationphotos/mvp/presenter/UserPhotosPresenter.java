@@ -18,7 +18,6 @@ public class UserPhotosPresenter extends MvpPresenter<UserPhotosContract.View> i
 
     @Override
     public void loadPhotos(String userId) {
-//        mUserPhotosDataManager.resetPage();
         mUserPhotosDataManager.provideData(userId);
     }
 

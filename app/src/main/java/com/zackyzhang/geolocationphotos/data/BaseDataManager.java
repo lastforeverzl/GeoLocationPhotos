@@ -1,7 +1,5 @@
 package com.zackyzhang.geolocationphotos.data;
 
-import android.util.Log;
-
 import com.zackyzhang.geolocationphotos.BuildConfig;
 import com.zackyzhang.geolocationphotos.data.model.Photo;
 import com.zackyzhang.geolocationphotos.data.model.PhotoInfo;
@@ -13,14 +11,13 @@ import java.util.Set;
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * Created by lei on 4/27/17.
  */
 
 public abstract class BaseDataManager {
-
-    private static final String TAG = "BaseDataManager";
 
     protected static final String EXTRAS = "geo,url_c,url_z,url_l";
     private FlickrApi mFlickrApi;
@@ -44,21 +41,22 @@ public abstract class BaseDataManager {
 
     protected void increasePhotoCount(String id) {
         photoCount++;
-        Log.d(TAG, this.toString() + " increase to: " + photoCount + ". " + id);
+//        Log.d(TAG, this.toString() + " increase to: " + photoCount + ". " + id);
+        Timber.d(this.toString() + " increase to: " + photoCount + ". " + id);
     }
 
     protected void decreasePhotoCount(String id) {
         photoCount--;
-        Log.d(TAG, this.toString() + "decrease to: " + photoCount + ". " + id);
+        Timber.d(this.toString() + "decrease to: " + photoCount + ". " + id);
     }
 
     protected void resetPhotoCount() {
         photoCount = 0;
-        Log.d(TAG, this.toString() +" PhotoCount: " + photoCount);
+        Timber.d(this.toString() +" PhotoCount: " + photoCount);
     }
 
     public void resetPage() {
-        Log.d(TAG, "page: " + photoPage + ", rawPhotos: " + rawPhotos.size() + ", photoIdSet: " + photoIdSet.size());
+        Timber.d("page: " + photoPage + ", rawPhotos: " + rawPhotos.size() + ", photoIdSet: " + photoIdSet.size());
         photoPage = 1;
         rawPhotos.clear();
         photoIdSet.clear();
@@ -89,16 +87,16 @@ public abstract class BaseDataManager {
                 .subscribe(
                         photoInfo -> {
                             generateReorgPhoto(photoInfo, photo);
-                            Log.d(TAG, photo.getId());
+                            Timber.d(photo.getId());
                             onDataLoading(photo);
                             decreasePhotoCount(photo.getId());
                         },
-                        error -> Log.d(TAG, error.getMessage()),
+                        error -> Timber.e(error.getMessage()),
                         () -> {
                             if (photoCount == 0) {
                                 resetPhotoCount();
                                 loadedData();
-                                Log.d(TAG, "load ReorgPhoto finished");
+                                Timber.d("load ReorgPhoto finished");
                             }
                         });
     }

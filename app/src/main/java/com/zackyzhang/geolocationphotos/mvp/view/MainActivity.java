@@ -7,7 +7,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,10 +19,9 @@ import com.zackyzhang.geolocationphotos.mvp.MainContract;
 import com.zackyzhang.geolocationphotos.mvp.presenter.MainPresenter;
 
 import butterknife.BindView;
+import timber.log.Timber;
 
 public class MainActivity extends MvpActivity<MainContract.View, MainContract.Presenter> implements MainContract.View, MainAdapter.OnItemClickListener {
-
-    private static final String TAG = "MainActivity";
 
     private MainAdapter mMainAdapter;
     private boolean isLoading = false;
@@ -87,12 +85,12 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
     @Override
     public void setLoadingStatusFalse() {
         this.isLoading = false;
-        Log.d(TAG, "isLoading = false");
+        Timber.d("isLoading = false");
     }
 
     public void setLoadingStatusTrue() {
         this.isLoading = true;
-        Log.d(TAG, "isLoading = true");
+        Timber.d("isLoading = true");
     }
 
     private void getPhotos() {
@@ -115,7 +113,7 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
                 int lastVisibleItem = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
                 int totalItemCount = recyclerView.getLayoutManager().getItemCount();
                 if (lastVisibleItem >= totalItemCount - 2 && dy > 0 && !isLoading) {
-                    Log.d(TAG, "loading more photos");
+                    Timber.d("loading more photos");
                     setLoadingStatusTrue();
                     presenter.loadPhotos();
                 }
@@ -165,7 +163,7 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
     @Override
     public void onPhotoClick(String photoUrl) {
         Intent intent = new Intent(this, ImageActivity.class);
-        Log.d(TAG, photoUrl);
+        Timber.d(photoUrl);
         intent.putExtra(ImageActivity.INTENT_EXTRA_PHOTO_URL, photoUrl);
         startActivity(intent);
     }

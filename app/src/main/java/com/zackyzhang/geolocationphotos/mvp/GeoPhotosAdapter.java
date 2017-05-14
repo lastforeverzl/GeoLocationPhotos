@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +20,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * Created by lei on 4/29/17.
  */
 
 public class GeoPhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final String TAG = "GeoPhotosAdapter";
 
     public static final int TYPE_HEADER = 0;
     public static final int TYPE_NORMAL = 1;
@@ -107,7 +106,7 @@ public class GeoPhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void setPhotoList(ReorgPhoto photo) {
         for (ReorgPhoto item : mPhotos) {
             if (item.getId().equals(photo.getId())) {
-                Log.d(TAG, "duplicate id: " + photo.getId());
+                Timber.d("duplicate id: " + photo.getId());
 //                mPhotos.remove(photo.getId());
             }
         }
@@ -196,7 +195,7 @@ public class GeoPhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 .appendQueryParameter("scale", SCALE)
                 .appendQueryParameter("maptype", "terrain")
                 .build().toString();
-        Log.d(TAG, url);
+        Timber.d(url);
         return url;
     }
 }

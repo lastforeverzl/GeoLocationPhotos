@@ -10,7 +10,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -24,6 +23,7 @@ import com.zackyzhang.geolocationphotos.mvp.presenter.GeoPhotosPresenter;
 import butterknife.BindInt;
 import butterknife.BindView;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * Created by lei on 5/8/17.
@@ -78,7 +78,7 @@ public class GeoPhotosActivity extends MvpActivity<GeoPhotosContract.View, GeoPh
                 int lastVisibleItem = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
                 int totalItemCount = recyclerView.getLayoutManager().getItemCount();
                 if (lastVisibleItem >= totalItemCount - 2 && dy > 0 && !isLoading) {
-                    Log.d(TAG, "loading more photos");
+                    Timber.d("loading more photos");
                     setLoadingStatusTrue();
                     presenter.loadMorePhotos(lat, lng);
                 }
@@ -89,7 +89,7 @@ public class GeoPhotosActivity extends MvpActivity<GeoPhotosContract.View, GeoPh
     @Override
     public void setLoadingStatusFalse() {
         this.isLoading = false;
-        Log.d(TAG, "isLoading = false");
+        Timber.d("isLoading = false");
     }
 
     @Override
@@ -100,7 +100,7 @@ public class GeoPhotosActivity extends MvpActivity<GeoPhotosContract.View, GeoPh
 
     public void setLoadingStatusTrue() {
         this.isLoading = true;
-        Log.d(TAG, "isLoading = true");
+        Timber.d("isLoading = true");
     }
 
     private void init() {

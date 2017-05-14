@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +35,7 @@ import java.util.List;
 import butterknife.BindInt;
 import butterknife.BindView;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * Created by lei on 4/29/17.
@@ -43,7 +43,6 @@ import butterknife.OnClick;
 
 public class SearchActivity extends MvpActivity<SearchContract.View, SearchContract.Presenter>
         implements SearchContract.View, PlaceSelectionListener, SearchAdapter.OnImageClickListener{
-    private static final String TAG = "SearchActivity";
 
     private PlaceAutocompleteFragment placeAutocompleteFragment;
     private SearchAdapter mSearchAdapter;
@@ -113,7 +112,7 @@ public class SearchActivity extends MvpActivity<SearchContract.View, SearchContr
 
     @Override
     public void onError(Status status) {
-        Log.e(TAG, "onError: Status = " + status.toString());
+        Timber.d("onError: Status = " + status.toString());
         Toast.makeText(this, "Place selection failed: " + status.getStatusMessage(), Toast.LENGTH_SHORT).show();
     }
 
@@ -138,7 +137,7 @@ public class SearchActivity extends MvpActivity<SearchContract.View, SearchContr
     @Override
     public void setLoadingStatusFalse() {
         this.isLoading = false;
-        Log.d(TAG, "isLoading = false");
+        Timber.d("isLoading = false");
     }
 
     @Override
@@ -157,7 +156,7 @@ public class SearchActivity extends MvpActivity<SearchContract.View, SearchContr
 
     public void setLoadingStatusTrue() {
         this.isLoading = true;
-        Log.d(TAG, "isLoading = true");
+        Timber.d("isLoading = true");
     }
 
     private void setupRecyclerView() {
@@ -173,7 +172,7 @@ public class SearchActivity extends MvpActivity<SearchContract.View, SearchContr
                 int lastVisibleItem = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
                 int totalItemCount = recyclerView.getLayoutManager().getItemCount();
                 if (lastVisibleItem >= totalItemCount - 2 && dy > 0 && !isLoading) {
-                    Log.d(TAG, "loading more photos");
+                    Timber.d("loading more photos");
                     setLoadingStatusTrue();
                     presenter.loadMorePhotos(lat, lng);
                 }

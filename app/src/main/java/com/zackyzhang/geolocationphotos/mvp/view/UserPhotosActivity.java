@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -22,6 +21,7 @@ import com.zackyzhang.geolocationphotos.mvp.presenter.UserPhotosPresenter;
 import butterknife.BindView;
 import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import timber.log.Timber;
 
 /**
  * Created by lei on 5/10/17.
@@ -33,8 +33,6 @@ public class UserPhotosActivity extends MvpActivity<UserPhotosContract.View, Use
     public static final String INTENT_EXTRA_USER_ID = "com.zackyzhang.geolocationphotos.INTENT_EXTRA_USER_ID";
     public static final String INTENT_EXTRA_AVATAR_URL = "com.zackyzhang.geolocationphotos.INTENT_EXTRA_AVATAR_URL";
     public static final String INTENT_EXTRA_USERNAME = "com.zackyzhang.geolocationphotos.INTENT_EXTRA_USERNAME";
-
-    private static final String TAG = "UserPhotosActivity";
 
     private UserPhotosAdapter mUserPhotosAdapter;
     private boolean isLoading = false;
@@ -112,7 +110,7 @@ public class UserPhotosActivity extends MvpActivity<UserPhotosContract.View, Use
                 int lastVisibleItem = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
                 int totalItemCount = recyclerView.getLayoutManager().getItemCount();
                 if (lastVisibleItem >= totalItemCount - 2 && dy > 0 && !isLoading) {
-                    Log.d(TAG, "loading more photos");
+                    Timber.d("loading more photos");
                     setLoadingStatusTrue();
                     presenter.loadMorePhotos(userId);
                 }

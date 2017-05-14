@@ -1,20 +1,18 @@
 package com.zackyzhang.geolocationphotos.data;
 
-import android.util.Log;
-
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import timber.log.Timber;
 
 /**
  * Created by lei on 4/27/17.
  */
 
 public class FlickrApi {
-    private static final String TAG = "FlickrApi";
 
     private static FlickrApi sInstance;
     private FlickrService api;
@@ -42,7 +40,7 @@ public class FlickrApi {
     }
 
     private static HttpLoggingInterceptor logInterceptor() {
-        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor(message -> Log.d("OkHttp", message));
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor(message -> Timber.tag("OkHttp").d(message));
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
         return httpLoggingInterceptor;
     }
@@ -53,7 +51,7 @@ public class FlickrApi {
     }
 
     private void createApi() {
-        Log.d(TAG, "in create APi");
+        Timber.d("in create APi");
         api = mRetrofit.create(FlickrService.class);
     }
 }

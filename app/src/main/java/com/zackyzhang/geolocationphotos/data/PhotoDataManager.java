@@ -1,7 +1,5 @@
 package com.zackyzhang.geolocationphotos.data;
 
-import android.util.Log;
-
 import com.zackyzhang.geolocationphotos.BuildConfig;
 
 import java.util.ArrayList;
@@ -9,13 +7,13 @@ import java.util.HashSet;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * Created by lei on 4/28/17.
  */
 
 public abstract class PhotoDataManager extends BaseDataManager {
-    private static final String TAG = "PhotoDataManager";
 
     public PhotoDataManager() {
         super();
@@ -35,7 +33,7 @@ public abstract class PhotoDataManager extends BaseDataManager {
                 .map(recentPhotos -> recentPhotos.getPhotos().getPhoto())
                 .subscribe(
                         photos -> rawPhotos = photos,
-                        error -> Log.d(TAG, error.getMessage()),
+                        error -> Timber.e(error.getMessage()),
                         () -> combineWithPhotoInfo());
     }
 

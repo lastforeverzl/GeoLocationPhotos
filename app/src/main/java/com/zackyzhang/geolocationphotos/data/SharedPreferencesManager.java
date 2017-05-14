@@ -2,7 +2,6 @@ package com.zackyzhang.geolocationphotos.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -10,12 +9,13 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.LinkedList;
 
+import timber.log.Timber;
+
 /**
  * Created by lei on 5/1/17.
  */
 
 public class SharedPreferencesManager {
-    private static final String TAG = "SharedPreferencesManage";
 
     private static final String MY_APP_PREFERENCES = "MY_APP_PREFERENCES";
     private static final String RESENT_QUERY = "RESENT_QUERY";
@@ -47,7 +47,7 @@ public class SharedPreferencesManager {
             rs.setLongitude(lng);
 
             if (mRecentQueryList.contains(rs)) {
-                Log.d(TAG, "contain one: " + rs.getLocation());
+                Timber.d("contain one: " + rs.getLocation());
                 mRecentQueryList.remove(rs);
             }
             mRecentQueryList.addFirst(rs);

@@ -2,7 +2,6 @@ package com.zackyzhang.geolocationphotos.mvp;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,13 +17,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * Created by lei on 5/9/17.
  */
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> {
-    private static final String TAG = "SearchAdapter";
 
     public interface OnImageClickListener {
         void onPhotoClick(String photoUrl);
@@ -49,11 +48,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> {
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-//        ReorgPhoto photo = mPhotos.get(position);
-//        Glide.with(mContext)
-//                .load(photo.getUrlZ())
-//                .centerCrop()
-//                .into(holder.photo);
         holder.bind(mPhotos.get(position));
     }
 
@@ -65,7 +59,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> {
     public void setPhotoList(ReorgPhoto photo) {
         for (ReorgPhoto item : mPhotos) {
             if (item.getId().equals(photo.getId())) {
-                Log.d(TAG, "duplicate id: " + photo.getId());
+                Timber.d("duplicate id: " + photo.getId());
 //                mPhotos.remove(photo.getId());
             }
         }

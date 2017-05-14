@@ -25,7 +25,6 @@ import butterknife.OnClick;
  */
 
 public class UserPhotosAdapter extends RecyclerView.Adapter<UserPhotosAdapter.Holder> {
-    private static final String TAG = "UserPhotosAdapter";
 
     public interface OnImageClickListener {
         void onPhotoClick(String photoUrl);

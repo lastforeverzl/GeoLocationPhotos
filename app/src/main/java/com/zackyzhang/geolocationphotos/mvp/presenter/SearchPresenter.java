@@ -15,7 +15,6 @@ import java.util.List;
  */
 
 public class SearchPresenter extends MvpPresenter<SearchContract.View> implements SearchContract.Presenter {
-    private static final String TAG = "SearchPresenter";
 
     private SearchDataManager mSearchDataManager;
     private SharedPreferencesManager mSharedPreferencesManager;

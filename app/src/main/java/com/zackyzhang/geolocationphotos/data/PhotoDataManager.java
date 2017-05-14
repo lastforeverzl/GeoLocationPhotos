@@ -27,7 +27,7 @@ public abstract class PhotoDataManager extends BaseDataManager {
     }
 
     private void loadRecentPhotos(String page) {
-        getFlickrApi().getRecent(BuildConfig.FLICKR_API_KEY, EXTRAS, page, String.valueOf(30))
+        getFlickrApi().getRecent(BuildConfig.FLICKR_API_KEY, EXTRAS, page, PER_PAGE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(recentPhotos -> recentPhotos.getPhotos().getPhoto())

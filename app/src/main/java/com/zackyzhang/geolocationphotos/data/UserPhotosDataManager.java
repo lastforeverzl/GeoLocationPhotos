@@ -30,7 +30,7 @@ public abstract class UserPhotosDataManager extends BaseDataManager {
     }
 
     private void loadUserPhotos(String page) {
-        getFlickrApi().getUserPublicPhotos(BuildConfig.FLICKR_API_KEY, EXTRAS, page, userId)
+        getFlickrApi().getUserPublicPhotos(BuildConfig.FLICKR_API_KEY, EXTRAS, page, userId, PER_PAGE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(photosResponse -> photosResponse.getPhotos().getPhoto())

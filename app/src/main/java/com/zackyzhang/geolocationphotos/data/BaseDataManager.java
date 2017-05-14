@@ -19,6 +19,7 @@ import timber.log.Timber;
 
 public abstract class BaseDataManager {
 
+    protected static final String PER_PAGE = "30";
     protected static final String EXTRAS = "geo,url_c,url_z,url_l";
     private FlickrApi mFlickrApi;
 

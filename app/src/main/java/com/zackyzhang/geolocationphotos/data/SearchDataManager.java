@@ -33,7 +33,7 @@ public abstract class SearchDataManager extends BaseDataManager {
     }
 
     private void loadRecentPhotos(String page) {
-        getFlickrApi().getSearch(BuildConfig.FLICKR_API_KEY, EXTRAS, page, lat, lng)
+        getFlickrApi().getSearch(BuildConfig.FLICKR_API_KEY, EXTRAS, page, lat, lng, PER_PAGE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(recentPhotos -> recentPhotos.getPhotos().getPhoto())

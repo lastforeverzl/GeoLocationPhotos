@@ -130,9 +130,10 @@ public class GeoPhotosActivity extends MvpActivity<GeoPhotosContract.View, GeoPh
     }
 
     @Override
-    public void onPhotoClick(String photoUrl) {
+    public void onPhotoClick(String photoUrl, String photoPageUrl) {
         Intent intent = new Intent(this, ImageActivity.class);
         intent.putExtra(ImageActivity.INTENT_EXTRA_PHOTO_URL, photoUrl);
+        intent.putExtra(ImageActivity.INTENT_EXTRA_PHOTO_PAGE_URL, photoPageUrl);
         startActivity(intent);
     }
 

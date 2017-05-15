@@ -1,5 +1,7 @@
 package com.zackyzhang.geolocationphotos.mvp.view;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -23,8 +25,10 @@ import butterknife.OnClick;
 public class ImageActivity extends MvpActivity<ImageContract.View, ImageContract.Presenter> implements ImageContract.View {
 
     public static final String INTENT_EXTRA_PHOTO_URL = "com.zackyzhang.geolocationphotos.INTENT_EXTRA_PHOTO_URL";
+    public static final String INTENT_EXTRA_PHOTO_PAGE_URL = "com.zackyzhang.geolocationphotos.INTENT_EXTRA_PHOTO_PAGE_URL";
 
     String photoUrl;
+    String photoPageUrl;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -52,6 +56,7 @@ public class ImageActivity extends MvpActivity<ImageContract.View, ImageContract
     private void init() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.photoUrl = getIntent().getStringExtra(INTENT_EXTRA_PHOTO_URL);
+        this.photoPageUrl = getIntent().getStringExtra(INTENT_EXTRA_PHOTO_PAGE_URL);
     }
 
     private void loadImage() {
@@ -73,6 +78,9 @@ public class ImageActivity extends MvpActivity<ImageContract.View, ImageContract
             case R.id.image_menu:
                 finish();
                 break;
+            case R.id.flickr:
+                goToFlickr();
+                break;
             default:
                 break;
         }
@@ -83,4 +91,12 @@ public class ImageActivity extends MvpActivity<ImageContract.View, ImageContract
     public void dismiss() {
         finish();
     }
+
+    public void goToFlickr() {
+        Uri uri = Uri.parse(photoPageUrl);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        intent.setPackage("com.yahoo.mobile.client.android.flickr");
+        startActivity(intent);
+    }
+
 }

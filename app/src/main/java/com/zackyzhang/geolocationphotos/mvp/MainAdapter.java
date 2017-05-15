@@ -32,7 +32,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
 
         void onAvatarClick(View avatar, String nsid, String avatarUrl, String username);
 
-        void onPhotoClick(String photoUrl);
+        void onPhotoClick(String photoUrl, String photoPageUrl);
     }
 
     private Context mContext;
@@ -138,7 +138,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.Holder> {
                     mOnItemClickListener.onAvatarClick(avatar, mReorgPhoto.getNsid(), mReorgPhoto.getAvatar_url(), mReorgPhoto.getUsername());
                     break;
                 case R.id.id_photo:
-                    mOnItemClickListener.onPhotoClick(mReorgPhoto.getUrlL());
+                    mOnItemClickListener.onPhotoClick(mReorgPhoto.getUrlL(), mReorgPhoto.getUrlPhotoPage());
                 default:
                     break;
             }

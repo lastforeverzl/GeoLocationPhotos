@@ -27,7 +27,7 @@ import butterknife.OnClick;
 public class UserPhotosAdapter extends RecyclerView.Adapter<UserPhotosAdapter.Holder> {
 
     public interface OnImageClickListener {
-        void onPhotoClick(String photoUrl);
+        void onPhotoClick(String photoUrl, String photoPageUrl);
     }
 
     private Context mContext;
@@ -101,7 +101,7 @@ public class UserPhotosAdapter extends RecyclerView.Adapter<UserPhotosAdapter.Ho
 
         @OnClick(R.id.id_photo)
         public void click() {
-            mOnImageClickListener.onPhotoClick(mReorgPhoto.getUrlL());
+            mOnImageClickListener.onPhotoClick(mReorgPhoto.getUrlL(), mReorgPhoto.getUrlPhotoPage());
         }
     }
 

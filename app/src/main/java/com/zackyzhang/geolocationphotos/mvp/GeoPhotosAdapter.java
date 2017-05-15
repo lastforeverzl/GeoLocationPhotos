@@ -37,7 +37,7 @@ public class GeoPhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public static final String SCALE = "2";
 
     public interface OnImageClickListener {
-        void onPhotoClick(String photoUrl);
+        void onPhotoClick(String photoUrl, String photoPageUrl);
 
         void onMapClick(double lat, double lng);
     }
@@ -179,7 +179,7 @@ public class GeoPhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         @OnClick(R.id.photo)
         public void click() {
-            mOnImageClickListener.onPhotoClick(mReorgPhoto.getUrlL());
+            mOnImageClickListener.onPhotoClick(mReorgPhoto.getUrlL(), mReorgPhoto.getUrlPhotoPage());
         }
     }
 

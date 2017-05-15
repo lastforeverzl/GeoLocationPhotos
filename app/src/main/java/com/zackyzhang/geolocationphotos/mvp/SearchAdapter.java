@@ -26,7 +26,7 @@ import timber.log.Timber;
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> {
 
     public interface OnImageClickListener {
-        void onPhotoClick(String photoUrl);
+        void onPhotoClick(String photoUrl, String PhotoPageUrl);
     }
 
     private Context mContext;
@@ -98,7 +98,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> {
 
         @OnClick(R.id.photo)
         public void click() {
-            mOnImageClickListener.onPhotoClick(mReorgPhoto.getUrlL());
+            mOnImageClickListener.onPhotoClick(mReorgPhoto.getUrlL(), mReorgPhoto.getUrlPhotoPage());
         }
     }
 }

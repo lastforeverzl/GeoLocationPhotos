@@ -16,6 +16,7 @@ public class ReorgPhoto {
     private String url_c;
     private String url_z;
     private String url_l;
+    private String url_photoPage;
 
     public ReorgPhoto(String id) {
         this.id = id;
@@ -103,6 +104,14 @@ public class ReorgPhoto {
 
     public void setUrlL(String url_l) {
         this.url_l = url_l;
+    }
+
+    public String getUrlPhotoPage() {
+        return url_photoPage;
+    }
+
+    public void setUrlPhotoPage(String url_photoPage) {
+        this.url_photoPage = url_photoPage;
     }
 
     @Override

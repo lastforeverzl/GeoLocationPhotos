@@ -161,10 +161,11 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
     }
 
     @Override
-    public void onPhotoClick(String photoUrl) {
+    public void onPhotoClick(String photoUrl, String photoPageUrl) {
         Intent intent = new Intent(this, ImageActivity.class);
         Timber.d(photoUrl);
         intent.putExtra(ImageActivity.INTENT_EXTRA_PHOTO_URL, photoUrl);
+        intent.putExtra(ImageActivity.INTENT_EXTRA_PHOTO_PAGE_URL, photoPageUrl);
         startActivity(intent);
     }
 

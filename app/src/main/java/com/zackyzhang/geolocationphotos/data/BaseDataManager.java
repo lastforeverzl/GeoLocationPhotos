@@ -130,6 +130,7 @@ public abstract class BaseDataManager {
         String avatarUrl = "http://farm" + iconFarm + ".staticflickr.com/" + iconServer + "/buddyicons/" + nsid + ".jpg";
         photo.setNsid(nsid);
         photo.setAvatar_url(avatarUrl);
+        photo.setUrlPhotoPage(photoInfo.getUrls().getUrl().get(0).getContent());
     }
 
 }
